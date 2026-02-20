@@ -192,8 +192,6 @@ function nextRound() {
     bidInput.type = "text";
     bidInput.inputMode = "numeric";
     bidInput.id = `bid${i}`;
-    bidInput.min = 0;
-    bidInput.max = round.cards;
     bidInput.tabIndex = i + 1; // Tab-ordning
     bidInput.enterKeyHint = "next";
     bidInput.autocomplete = "off";
@@ -204,8 +202,6 @@ function nextRound() {
     resInput.inputMode = "numeric";
     resInput.id = `res${i}`;
     resInput.disabled = true;
-    resInput.min = 0;
-    resInput.max = round.cards;
     resInput.tabIndex = i + 1 + game.players.length;
     resInput.enterKeyHint = "next";
     resInput.autocomplete = "off";
