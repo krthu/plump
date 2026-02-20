@@ -189,7 +189,7 @@ function nextRound() {
     nameDiv.innerText = p;
 
     const bidInput = document.createElement("input");
-    bidInput.type = "number";
+    bidInput.type = "text";
     bidInput.inputMode = "numeric";
     bidInput.id = `bid${i}`;
     bidInput.min = 0;
@@ -199,7 +199,7 @@ function nextRound() {
     bidInput.addEventListener("keydown", focusNextInput);
 
     const resInput = document.createElement("input");
-    resInput.type = "number";
+    resInput.type = "text";
     bidInput.inputMode = "numeric";
     resInput.id = `res${i}`;
     resInput.disabled = true;
