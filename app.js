@@ -54,7 +54,7 @@ function resetGame() {
 
 /* ---------- ROUNDS ---------- */
 
-function createRounds(max = 2) {
+function createRounds(max = 10) {
   let r = [];
 
   // Nedåt 10 → 1
