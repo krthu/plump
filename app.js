@@ -196,17 +196,19 @@ function nextRound() {
     bidInput.max = round.cards;
     bidInput.tabIndex = i + 1; // Tab-ordning
     bidInput.enterKeyHint = "next";
+    bidInput.autocomplete = "off";
     bidInput.addEventListener("keydown", focusNextInput);
 
     const resInput = document.createElement("input");
     resInput.type = "text";
-    bidInput.inputMode = "numeric";
+    resInput.inputMode = "numeric";
     resInput.id = `res${i}`;
     resInput.disabled = true;
     resInput.min = 0;
     resInput.max = round.cards;
     resInput.tabIndex = i + 1 + game.players.length;
     resInput.enterKeyHint = "next";
+    resInput.autocomplete = "off";
     resInput.addEventListener("keydown", focusNextInput);
 
     row.appendChild(nameDiv);
