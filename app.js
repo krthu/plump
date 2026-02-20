@@ -10,6 +10,26 @@ let game = {
 
 let bids = [];
 
+function focusNextInput(e) {
+  if (e.key !== "Enter") return;
+
+  e.preventDefault();
+
+  const inputs = Array.from(
+    document.querySelectorAll('input:not([disabled]):not([type="hidden"])'),
+  );
+
+  const index = inputs.indexOf(e.target);
+  const next = inputs[index + 1];
+
+  if (next) {
+    next.focus();
+    next.select?.();
+  } else {
+    e.target.blur(); // stänger mobil-tangentbord sista input
+  }
+}
+
 /* ---------- STORAGE ---------- */
 
 function saveGame() {
@@ -98,6 +118,13 @@ function createPlayers() {
     input.id = `name${i}`;
     input.placeholder = `Spelare ${i + 1}`;
     input.tabIndex = i + 1; // Tab-ordning
+
+    input.addEventListener("keydown", focusNextInput);
+    if (i === num - 1) {
+      input.enterKeyHint = "done";
+    } else {
+      input.enterKeyHint = "next";
+    }
     c.appendChild(input);
     c.appendChild(document.createElement("br"));
   }
@@ -163,18 +190,24 @@ function nextRound() {
 
     const bidInput = document.createElement("input");
     bidInput.type = "number";
+    bidInput.inputMode = "numeric";
     bidInput.id = `bid${i}`;
     bidInput.min = 0;
     bidInput.max = round.cards;
     bidInput.tabIndex = i + 1; // Tab-ordning
+    bidInput.enterKeyHint = "next";
+    bidInput.addEventListener("keydown", focusNextInput);
 
     const resInput = document.createElement("input");
     resInput.type = "number";
+    bidInput.inputMode = "numeric";
     resInput.id = `res${i}`;
     resInput.disabled = true;
     resInput.min = 0;
     resInput.max = round.cards;
     resInput.tabIndex = i + 1 + game.players.length;
+    bidInput.enterKeyHint = "next";
+    bidInput.addEventListener("keydown", focusNextInput);
 
     row.appendChild(nameDiv);
     row.appendChild(bidInput);
