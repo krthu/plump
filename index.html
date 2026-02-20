@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="sv">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Plump Räknare</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
+
+    <!-- Overlay med panel -->
+    <div id="menuOverlay" class="menuOverlay hidden">
+      <div id="menuPanel">
+        <div class="menuItem" onclick="showHistory()">📊 Resultat</div>
+        <div class="menuItem" onclick="resetGame()">🔄 Starta om spel</div>
+      </div>
+    </div>
+
+    <!-- SETUP -->
+    <div id="setup" class="card">
+      <h2>Antal spelare</h2>
+      <input id="numPlayers" type="number" min="2" max="8" />
+      <br />
+      <button onclick="createPlayers()">Fortsätt</button>
+
+      <div id="playerNames" class="playerList"></div>
+    </div>
+
+    <!-- GAME -->
+    <div id="game" class="hidden">
+      <div class="roundCard">
+        <div id="roundBig"></div>
+        <div id="dealerInfo"></div>
+      </div>
+
+      <div id="bids" class="bidsContainer"></div>
+
+      <button id="continueBtn" onclick="continueRound()">Spara bud</button>
+
+      <h3>Poäng</h3>
+      <div id="scoreboard" class="scoreBoard"></div>
+    </div>
+
+    <!-- HISTORY -->
+    <div id="historyView" class="hidden">
+      <button onclick="closeHistory()">← Tillbaka</button>
+      <div id="historyTable"></div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
