@@ -54,7 +54,7 @@ function resetGame() {
 
 /* ---------- ROUNDS ---------- */
 
-function createRounds(max = 10) {
+function createRounds(max = 2) {
   let r = [];
 
   // Nedåt 10 → 1
@@ -68,13 +68,13 @@ function createRounds(max = 10) {
       parseInt(document.getElementById("numPlayers")?.value) ||
       3;
     // Skapa en runda per spelare med 1 kort
-    for (let i = 0; i < numPlayers; i++) {
+    for (let i = 0; i < numPlayers - 1; i++) {
       r.push({
         cards: 1,
         dir: "⬇",
-        mini: true,
-        miniIndex: i, // för att visa vilken spelare som ska ge
-        label: `Miniomgång ${i + 1}/${numPlayers}`,
+        // mini: true,
+        // miniIndex: i, // för att visa vilken spelare som ska ge
+        // label: `Miniomgång ${i + 1}/${numPlayers}`,
       });
     }
   }
