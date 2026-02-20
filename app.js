@@ -206,8 +206,8 @@ function nextRound() {
     resInput.min = 0;
     resInput.max = round.cards;
     resInput.tabIndex = i + 1 + game.players.length;
-    bidInput.enterKeyHint = "next";
-    bidInput.addEventListener("keydown", focusNextInput);
+    resInput.enterKeyHint = "next";
+    resInput.addEventListener("keydown", focusNextInput);
 
     row.appendChild(nameDiv);
     row.appendChild(bidInput);
