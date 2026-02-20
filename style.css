@@ -32,6 +32,22 @@ button {
   cursor: pointer;
 }
 
+.notification {
+  position: fixed;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ff4c4c;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  z-index: 2000;
+  opacity: 0.95;
+  transition: opacity 0.3s ease;
+}
+
 /* Overlay */
 .menuOverlay {
   position: fixed;

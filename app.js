@@ -56,8 +56,32 @@ function resetGame() {
 
 function createRounds(max = 10) {
   let r = [];
+
+  // Nedåt 10 → 1
   for (let i = max; i >= 1; i--) r.push({ cards: i, dir: "⬇" });
+
+  // Kolla om mini-omgång ska användas
+  const oneCard = document.getElementById("oneCardRound")?.checked;
+  if (oneCard) {
+    const numPlayers =
+      game?.players.length ||
+      parseInt(document.getElementById("numPlayers")?.value) ||
+      3;
+    // Skapa en runda per spelare med 1 kort
+    for (let i = 0; i < numPlayers; i++) {
+      r.push({
+        cards: 1,
+        dir: "⬇",
+        mini: true,
+        miniIndex: i, // för att visa vilken spelare som ska ge
+        label: `Miniomgång ${i + 1}/${numPlayers}`,
+      });
+    }
+  }
+
+  // Uppåt 2 → max
   for (let i = 2; i <= max; i++) r.push({ cards: i, dir: "⬆" });
+
   return r;
 }
 
@@ -92,7 +116,6 @@ function startGame(num) {
 }
 
 /* ---------- ROUND ---------- */
-
 function nextRound() {
   game.phase = "bidding";
   const btn = document.getElementById("continueBtn");
@@ -104,8 +127,14 @@ function nextRound() {
     return;
   }
 
-  document.getElementById("roundBig").innerText =
-    `${round.cards} KORT ${round.dir}`;
+  // Om miniomgång, markera spelaren som ska ge
+  let roundText = `${round.cards} KORT ${round.dir}`;
+  if (round.mini) {
+    const playerName = game.players[round.miniIndex];
+    roundText = `${round.label} – ${playerName}`;
+  }
+
+  document.getElementById("roundBig").innerText = roundText;
   document.getElementById("dealerInfo").innerText =
     `Given: ${game.players[game.dealerIndex]}`;
 
@@ -126,6 +155,8 @@ function nextRound() {
     bidInput.min = 0;
     bidInput.max = round.cards;
 
+    // Spärr: totalbud kan inte bli lika med antalet kort
+
     const resInput = document.createElement("input");
     resInput.type = "number";
     resInput.id = `res${i}`;
@@ -144,18 +175,54 @@ function nextRound() {
   saveGame();
 }
 
+function checkBids(maxCards) {
+  const bidsArray = game.players.map(
+    (_, i) => parseInt(document.getElementById(`bid${i}`).value) || 0,
+  );
+  const total = bidsArray.reduce((a, b) => a + b, 0);
+
+  if (total === maxCards) {
+    showNotification(
+      "Summan av alla bud kan inte bli lika med antal kort i omgången!",
+    );
+    return false; // indikerar att buden inte är okej
+  }
+  return true;
+}
+
 /* ---------- FLOW ---------- */
 
 function continueRound() {
   const btn = document.getElementById("continueBtn");
+
   if (game.phase === "bidding") {
-    saveBids();
+    const round = game.rounds[game.roundIndex];
+    const maxCards = round.cards;
+
+    // Använd checkBids istället för inline-logik
+    if (!checkBids(maxCards)) {
+      return; // stoppar spara
+    }
+
+    // Spara buden
     game.phase = "results";
+    saveBids();
     btn.innerText = "Rätta";
   } else {
     saveResults();
   }
+
   saveGame();
+}
+
+function showNotification(msg) {
+  const n = document.getElementById("notif");
+  n.innerText = msg;
+  n.classList.remove("hidden");
+
+  setTimeout(() => {
+    n.classList.add("hidden");
+  }, 2000);
 }
 
 /* ---------- BIDS ---------- */
