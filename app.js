@@ -91,10 +91,22 @@ function createPlayers() {
   const num = parseInt(document.getElementById("numPlayers").value);
   const c = document.getElementById("playerNames");
   c.innerHTML = "";
+
   for (let i = 0; i < num; i++) {
-    c.innerHTML += `<input id="name${i}" placeholder="Spelare ${i + 1}">`;
+    const input = document.createElement("input");
+    input.type = "text";
+    input.id = `name${i}`;
+    input.placeholder = `Spelare ${i + 1}`;
+    input.tabIndex = i + 1; // Tab-ordning
+    c.appendChild(input);
+    c.appendChild(document.createElement("br"));
   }
-  c.innerHTML += `<button onclick="startGame(${num})">Starta spel</button>`;
+
+  const startBtn = document.createElement("button");
+  startBtn.innerText = "Starta spel";
+  startBtn.tabIndex = num + 1;
+  startBtn.onclick = () => startGame(num);
+  c.appendChild(startBtn);
 }
 
 function startGame(num) {
@@ -154,8 +166,7 @@ function nextRound() {
     bidInput.id = `bid${i}`;
     bidInput.min = 0;
     bidInput.max = round.cards;
-
-    // Spärr: totalbud kan inte bli lika med antalet kort
+    bidInput.tabIndex = i + 1; // Tab-ordning
 
     const resInput = document.createElement("input");
     resInput.type = "number";
@@ -163,11 +174,11 @@ function nextRound() {
     resInput.disabled = true;
     resInput.min = 0;
     resInput.max = round.cards;
+    resInput.tabIndex = i + 1 + game.players.length;
 
     row.appendChild(nameDiv);
     row.appendChild(bidInput);
     row.appendChild(resInput);
-
     div.appendChild(row);
   });
 
